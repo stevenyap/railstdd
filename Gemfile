@@ -45,5 +45,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda'
   gem 'awesome_print'
+  gem 'factory_girl_rails'
 end
-
