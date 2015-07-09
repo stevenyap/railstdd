@@ -27,8 +27,32 @@ RSpec.describe ProductsController, type: :controller do
   describe '#show' do
     let!(:product) { create(:product) }
 
-    it 'should display a product' do
+    it 'should find a product for view' do
       get :show, id: product.id
+      expect(assigns(:product)).to eq product
+    end
+  end
+
+  describe '#new' do
+    it 'should instantiate a product for view' do
+      get :new
+      expect(assigns(:product)).to be_a Product
+    end
+  end
+
+  describe '#edit' do
+    def do_request
+      get :edit, id: product.id
+    end
+
+    let!(:product) { create(:product) }
+
+    it 'should render the new template' do
+      expect(do_request).to render_template :new
+    end
+
+    it 'should find the product to edit' do
+      do_request
       expect(assigns(:product)).to eq product
     end
   end
