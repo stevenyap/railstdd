@@ -25,6 +25,15 @@ class ProductsController < ApplicationController
     render :new
   end
 
+  def update
+    @product = Product.find(product_id)
+    if @product.update(product_params)
+      redirect_to products_url
+    else
+      render :new
+    end
+  end
+
   private
 
   def product_id

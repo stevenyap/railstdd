@@ -87,4 +87,35 @@ RSpec.describe ProductsController, type: :controller do
       expect(assigns(:product)).to eq product
     end
   end
+
+  describe '#update' do
+    def do_request
+      put :update, id: product.id, product: updated_params
+    end
+
+    let!(:product)        { create(:product, title: 'Ruby Book') }
+    let!(:updated_params) { attributes_for(:product, title: new_title) }
+
+    context 'Success' do    
+      let!(:new_title) { 'Python Book' }
+      
+      it 'should update the product' do
+        do_request
+        expect(assigns(:product).title).to eq new_title
+      end
+    end
+
+    context 'Failure' do      
+      let!(:new_title) { '' }
+      
+      it 'should not update the product' do
+        do_request
+        expect(product.reload.title).to eq 'Ruby Book'
+      end
+
+      it 'should render :new template' do
+        expect(do_request).to render_template :new
+      end
+    end
+  end
 end
