@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
   belongs_to :category
 
-  validates :title, :description, presence: true  
+  validates :title, :description, :category, presence: true  
   validates :price, numericality: { greater_than: 0 }
   validate :title_is_shorter_than_description
 
