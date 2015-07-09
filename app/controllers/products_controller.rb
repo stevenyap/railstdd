@@ -1,10 +1,11 @@
 class ProductsController < ApplicationController
+  before_action :get_product, only: [:show, :edit, :update, :destroy]
+
   def index
     @products = Product.published
   end
 
   def show
-    @product = Product.find(product_id)
   end
 
   def new
@@ -21,17 +22,20 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @product = Product.find(product_id)
     render :new
   end
 
   def update
-    @product = Product.find(product_id)
     if @product.update(product_params)
       redirect_to products_url
     else
       render :new
     end
+  end
+
+  def destroy
+    @product.destroy
+    redirect_to products_url
   end
 
   private
@@ -46,5 +50,9 @@ class ProductsController < ApplicationController
                                     :price, 
                                     :published, 
                                     :category_id)
+  end
+
+  def get_product
+    @product = Product.find(product_id)
   end
 end
