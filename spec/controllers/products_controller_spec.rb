@@ -23,4 +23,13 @@ RSpec.describe ProductsController, type: :controller do
       end
     end
   end
+
+  describe '#show' do
+    let!(:product) { create(:product) }
+
+    it 'should display a product' do
+      get :show, id: product.id
+      expect(assigns(:product)).to eq product
+    end
+  end
 end
