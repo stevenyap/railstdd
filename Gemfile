@@ -46,4 +46,5 @@ group :development, :test do
   gem 'shoulda'
   gem 'awesome_print'
   gem 'factory_girl_rails'
+  gem 'capybara'
 end
