@@ -40,6 +40,37 @@ RSpec.describe ProductsController, type: :controller do
     end
   end
 
+  describe '#create' do
+    def do_request
+      post :create, params
+    end
+
+    context 'Success' do
+      let!(:category) { create(:category) }
+      let!(:params)   { { product: attributes_for(:product, category_id: category.id) } } 
+
+      it 'should save a product' do
+        expect { do_request }.to change(Product, :count).by(1)
+      end
+
+      it 'should redirect to products listing' do
+        expect(do_request).to redirect_to products_url
+      end
+    end
+
+    context 'Failure' do
+      let!(:params)   { { product: attributes_for(:product, title: '') } }
+
+      it 'should not save the product' do
+        expect { do_request }.not_to change(Product, :count)
+      end
+
+      it 'should render :new template' do
+        expect(do_request).to render_template :new
+      end
+    end
+  end
+
   describe '#edit' do
     def do_request
       get :edit, id: product.id
